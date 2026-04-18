@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<wf-panel-pi>
+    <plugin name="panel">
+    <_short>Panel</_short>
+    <group>
+    <_short>Brightness</_short>
+    </group>
+    </plugin>
+</wf-panel-pi>

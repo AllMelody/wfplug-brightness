@@ -1,0 +1,11 @@
+[Unit]
+Description=Restore saved LCD brightness for %i
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/wfplug-brightness/apply-brightness %i
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
