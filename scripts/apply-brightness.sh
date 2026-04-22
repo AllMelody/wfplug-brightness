@@ -26,6 +26,16 @@ duty=$(( pct * period / 100 ))
 
 [ -d "$chip" ] || exit 0
 
+# Display overlays declare a gpio-backlight node on GPIO 18 with
+# default-on, which wins the probe race against dtoverlay=pwm and pins
+# the GPIO high so PWM output never reaches the pin. Release the
+# driver and remux GPIO 18 to PWM0 (ALT5) before configuring the PWM.
+bl_drv=/sys/bus/platform/drivers/gpio-backlight
+if [ -e "$bl_drv/rpi_backlight" ]; then
+    echo rpi_backlight > "$bl_drv/unbind"
+fi
+pinctrl set 18 a5
+
 if [ ! -d "$chan" ]; then
     echo 0 > "$chip/export"
     i=0
