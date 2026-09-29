@@ -1,8 +1,9 @@
 gtkmm = dependency('gtkmm-3.0', version: '>=3.24')
-wfpanel = dependency('wf-panel-pi')
+wfpanel = dependency('wf-panel-pi', version: '>=1.34')
+layershell = dependency('gtk-layer-shell-0')
 
 wsources = files('brightness.cpp')
-wdeps = [ gtkmm, wfpanel ]
+wdeps = [ gtkmm, wfpanel, layershell ]
 
 wargs = [
     '-DPACKAGE_DATA_DIR="' + wresource_dir + '"',

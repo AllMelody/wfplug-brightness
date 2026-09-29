@@ -7,11 +7,10 @@
 #include <gtkmm/menu.h>
 
 extern "C" {
-#include "configure.h"
-#include "lxutils.h"
+#include "plugin.h"
 }
 
-class WayfireBrightness : public WayfireWidget
+class WayfireBrightness : public PanelWidget
 {
     std::unique_ptr<Gtk::Button> plugin;
     Gtk::Image *icon;
@@ -24,7 +23,8 @@ class WayfireBrightness : public WayfireWidget
     void update_tooltip();
 
   public:
-    void init(Gtk::HBox *container) override;
+    void widget_init(Gtk::HBox *container) override;
+    void widget_set_icon() override;
     virtual ~WayfireBrightness();
 };
 

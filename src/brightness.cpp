@@ -6,7 +6,6 @@
 #include <fstream>
 #include <glibmm.h>
 #include <gtkmm/checkmenuitem.h>
-#include "gtk-utils.hpp"
 #include "brightness.hpp"
 
 #define PLUGIN_TITLE N_("Brightness")
@@ -19,11 +18,11 @@ namespace fs = std::filesystem;
 
 extern "C" {
     conf_table_t conf_table[] = {
-        { CONF_TYPE_NONE, NULL, NULL, NULL },
+        { CONF_TYPE_NONE, NULL, NULL, NULL, NULL },
     };
 
-    WayfireWidget *create() { return new WayfireBrightness; }
-    void destroy(WayfireWidget *w) { delete w; }
+    PanelWidget *create() { return new WayfireBrightness; }
+    void destroy(PanelWidget *w) { delete w; }
 
     const conf_table_t *config_params(void) { return conf_table; }
     const char *display_name(void) { return PLUGIN_TITLE; }
@@ -146,16 +145,16 @@ void WayfireBrightness::on_clicked()
         Gdk::GRAVITY_SOUTH_WEST, Gdk::GRAVITY_NORTH_WEST, nullptr);
 }
 
-void WayfireBrightness::init(Gtk::HBox *container)
+void WayfireBrightness::widget_init(Gtk::HBox *container)
 {
     plugin = std::make_unique<Gtk::Button>();
     plugin->set_name(PLUGIN_NAME);
     container->pack_start(*plugin, false, false);
 
     icon = Gtk::manage(new Gtk::Image());
-    set_image_icon(*icon, "brightness-panel", 22);
     plugin->set_image(*icon);
     plugin->set_always_show_image(true);
+    widget_set_icon();
 
     plugin->signal_clicked().connect(
         sigc::mem_fun(*this, &WayfireBrightness::on_clicked));
@@ -164,6 +163,11 @@ void WayfireBrightness::init(Gtk::HBox *container)
     update_tooltip();
 
     plugin->show_all();
+}
+
+void WayfireBrightness::widget_set_icon()
+{
+    set_taskbar_icon(GTK_WIDGET(icon->gobj()), "brightness-panel");
 }
 
 WayfireBrightness::~WayfireBrightness() {}
